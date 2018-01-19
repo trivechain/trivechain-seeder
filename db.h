@@ -108,6 +108,7 @@ public:
     if (blocks && blocks < GetRequireHeight()) return false;
 
     /*if (total <= 3 && success * 2 >= total) return true;*/
+      if(total >= 1 && success >= 1) return true;
 
     if (stat2H.reliability > 0.85 && stat2H.count > 2) return true;
     if (stat8H.reliability > 0.70 && stat8H.count > 4) return true;
