@@ -397,13 +397,14 @@ extern "C" void* ThreadStats(void*) {
   return nullptr;
 }
 
-static const string mainnet_seeds[] = {"174.138.28.13", ""};
-static const string testnet_seeds[] = {""};
+static const string mainnet_seeds[] = {"202.9.102.221", "18.218.75.47"};
+static const string testnet_seeds[] = {"18.217.190.172"};
 static const string *seeds = mainnet_seeds;
 
 extern "C" void* ThreadSeeder(void*) {
   if (!fTestNet){
-    db.Add(CService("174.138.28.13", 9999), true);
+    db.Add(CService("202.9.102.221", 9999), true);
+    db.Add(CService("18.218.75.47", 9999), true);
   }
   do {
     for (int i=0; seeds[i] != ""; i++) {
