@@ -104,22 +104,24 @@ class CNode {
       CAddress addrFrom;
       uint64 nNonce = 1;
       vRecv >> nVersion >> you.nServices >> nTime >> addrMe;
-      if (nVersion == 10300) nVersion = 300;
-      if (nVersion >= 106 && !vRecv.empty())
-        vRecv >> addrFrom >> nNonce;
-      if (nVersion >= 106 && !vRecv.empty())
-        vRecv >> strSubVer;
-      if (nVersion >= 209 && !vRecv.empty())
-        vRecv >> nStartingHeight;
-      
-      if (nVersion >= 209) {
-        BeginMessage("verack");
-        EndMessage();
-      }
-      vSend.SetVersion(min(nVersion, PROTOCOL_VERSION));
-      if (nVersion < 209) {
-        this->vRecv.SetVersion(min(nVersion, PROTOCOL_VERSION));
-        GotVersion();
+      if (nVersion >= 70210) {
+        if (nVersion == 10300) nVersion = 300;
+        if (nVersion >= 106 && !vRecv.empty())
+          vRecv >> addrFrom >> nNonce;
+        if (nVersion >= 106 && !vRecv.empty())
+          vRecv >> strSubVer;
+        if (nVersion >= 209 && !vRecv.empty())
+          vRecv >> nStartingHeight;
+        
+        if (nVersion >= 209) {
+          BeginMessage("verack");
+          EndMessage();
+        }
+        vSend.SetVersion(min(nVersion, PROTOCOL_VERSION));
+        if (nVersion < 209) {
+          this->vRecv.SetVersion(min(nVersion, PROTOCOL_VERSION));
+          GotVersion();
+        }
       }
       return false;
     }
